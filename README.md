@@ -8,4 +8,4 @@ Where YYYY is the current year, and NNN is a sequence number.
 To install, just activate the plugin in your config/config.rb file by
 including an entry such as:
 
-     AppConfig[:plugins] = ['generate-accession-identifiers-plugin']
+     AppConfig[:plugins] = ['generate_osul_accession_identifiers']
