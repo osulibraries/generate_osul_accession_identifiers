@@ -17,7 +17,7 @@ $(function () {
 
   var generate_accession_id = function () {
     $.ajax({
-      url: APP_PATH + "plugins/generate_accession_identifier/expected",
+      url: APP_PATH + "plugins/generate_accession_identifier/generate",
       data: {},
       type: "POST",
       success: function(identifier) {
