@@ -16,7 +16,7 @@ class GenerateAccessionIdentifiersController < ApplicationController
   def expected
     #TESTING
     logger.info "TESTING TESTING::::::"
-    s = Search.for_type(session[:repo_id], "accession", params_for_backend_search.merge({"facet[]" => SearchResultData.ACCESSION_FACETS}))    
+    s = Search.for_type(session[:repo_id], "accession")    
     logger.info s.inspect
 
 
