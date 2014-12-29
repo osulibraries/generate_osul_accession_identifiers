@@ -17,7 +17,7 @@ class GenerateAccessionIdentifiersController < ApplicationController
     #TESTING
     logger.info "TESTING TESTING::::::"
     s = Search.for_type(3, "accession", {})    
-    logger.info s.inspect
+    logger.info s[:results].inspect
 
 
 
