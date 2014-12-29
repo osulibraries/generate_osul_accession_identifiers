@@ -1,3 +1,7 @@
+require 'active_support/core_ext/array/wrap'
+require 'active_support/callbacks'
+
+
 class Accession < Sequel::Model(:accession)
   include ASModel
   corresponds_to JSONModel(:accession)
@@ -22,6 +26,7 @@ class Accession < Sequel::Model(:accession)
   include Events
   include Publishable
 
+  # ArchivesSpace has no idea what after_create is: "undefined method `after_create' for Accession:Class"
   after_create :check_accession_identifier
 
   agent_role_enum("linked_agent_role")
