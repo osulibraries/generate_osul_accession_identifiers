@@ -18,7 +18,7 @@ $(function () {
   var generate_accession_id = function () {
     $.ajax({
       url: APP_PATH + "plugins/generate_accession_identifier/expected",
-      data: {repo_code : REPO_CODE},
+      data: {repo_key : REPO_CODE},
       type: "POST",
       success: function(identifier) {
         $('#accession_id_0_').val(REPO_CODE).enable();
