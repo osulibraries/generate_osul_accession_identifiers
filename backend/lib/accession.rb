@@ -1,4 +1,3 @@
-require 'active_model'
 class Accession < Sequel::Model(:accession)
   include ASModel
   corresponds_to JSONModel(:accession)
@@ -25,7 +24,7 @@ class Accession < Sequel::Model(:accession)
 
 
    # ArchivesSpace has no idea what after_create is: "undefined method `after_create' for Accession:Class"
-  include ActiveModel::Callbacks
+  include Rails::ActiveModel::Callbacks
   define_model_callbacks :create, :only => [:after]
   after_create :check_accession_identifier
 
