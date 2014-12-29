@@ -14,8 +14,11 @@ class GenerateAccessionIdentifiersController < ApplicationController
   end
 
   def expected
-    logger.info "GIVE ME PARAMS!!!!!"
-    logger.info params.inspect
+    #TESTING
+    logger.info = "TESTING TESTING::::::"
+    s = Search.for_type(session[:repo_id], "accession", params_for_backend_search.merge({"facet[]" => SearchResultData.ACCESSION_FACETS}))    
+    logger.info s.inspect
+
 
 
     response = JSONModel::HTTP::post_form("/plugins/generate_accession_identifiers/increment/#{params[:repo_key]}")
@@ -26,5 +29,6 @@ class GenerateAccessionIdentifiersController < ApplicationController
       render :json => response.to_json
     end
   end
+
 
 end
