@@ -22,6 +22,8 @@ class Accession < Sequel::Model(:accession)
   include Events
   include Publishable
 
+  after_create :check_accession_identifier
+
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
 
@@ -58,4 +60,11 @@ class Accession < Sequel::Model(:accession)
 
                   %w(id_0 id_1 id_2 id_3).map{|p| json[p]}.compact.join("-")
                 }
+
+
+  private
+
+  def self.check_accession_identifier
+    true
+  end
 end
