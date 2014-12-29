@@ -28,7 +28,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "{'year', 'YYYY', 'number', N}"]) \
   do
     year = Time.now.strftime('%Y')
-    sequence_name = "_GENERATE_ACCESSION_IDENTIFIER_#{year}"
+    sequence_name = "#{params[:repo_key]}_GENERATE_ACCESSION_IDENTIFIER_#{year}"
 
     number = OsulSequence.osul_get(sequence_name)
     expected = number.to_i + 1
