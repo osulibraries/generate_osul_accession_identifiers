@@ -25,7 +25,7 @@ class Accession < Sequel::Model(:accession)
 
 
    # ArchivesSpace has no idea what after_create is: "undefined method `after_create' for Accession:Class"
-  extend ActiveModel::Callbacks
+  base.extend(ActiveModel::Callbacks)
   define_model_callbacks :create, :only => [:after]
   def create
     run_callbacks :create do
@@ -34,7 +34,7 @@ class Accession < Sequel::Model(:accession)
   end
   after_create :check_accession_identifier
 
-  
+
 
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
