@@ -47,8 +47,17 @@ $(function () {
     generate_accession_id();
   }
 
+
+  var increment_accession_id_sequence = function () {
+    $.ajax({
+      url: APP_PATH + "plugins/generate_accession_identifier/increment",
+      data: {repo_key : REPO_CODE},
+      type: "POST",
+    })
+  };
+
 //Hijacking the form submission to ensure the accession identifier meets our standards.
-  // $('#accession_form').submit(function(){
+  $('#accession_form').submit(function(){
   //     console.log("This form is being submitted");
   //     message = '<div class="alert alert-error with-hide-alert"><div class="errors-for-attribute">'
   //     message += '<div class="error linked-to-field" data-target="accession_id_0_" data-message="Property is required but was missing">'
@@ -60,7 +69,8 @@ $(function () {
   //     // $('#form_messages').html(message)
   //     // return false;
   //     // super();
-  // });
+    console.log("Just testing the waters....")
+  });
 
 })
 
