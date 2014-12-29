@@ -1,6 +1,3 @@
-require 'active_support/core_ext/array/wrap'
-require 'active_support/callbacks'
-
 
 class Accession < Sequel::Model(:accession)
   include ASModel
@@ -26,8 +23,18 @@ class Accession < Sequel::Model(:accession)
   include Events
   include Publishable
 
-  # ArchivesSpace has no idea what after_create is: "undefined method `after_create' for Accession:Class"
+
+   # ArchivesSpace has no idea what after_create is: "undefined method `after_create' for Accession:Class"
+  extend ActiveModel::Callbacks
+  define_model_callbacks :create, :only => [:after]
+  def create
+    run_callbacks :create do
+      # Your create action methods here
+    end
+  end
   after_create :check_accession_identifier
+
+  
 
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
