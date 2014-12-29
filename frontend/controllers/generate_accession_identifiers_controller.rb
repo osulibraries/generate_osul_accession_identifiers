@@ -14,13 +14,6 @@ class GenerateAccessionIdentifiersController < ApplicationController
   end
 
   def expected
-    #TESTING
-    logger.info "TESTING TESTING::::::"
-    s = Search.for_type(3, "accession", {})    
-    logger.info s[:results].inspect
-
-
-
     response = JSONModel::HTTP::post_form("/plugins/generate_accession_identifiers/increment/#{params[:repo_key]}")
 
     if response.code == '200'
@@ -28,6 +21,22 @@ class GenerateAccessionIdentifiersController < ApplicationController
     else
       render :json => response.to_json
     end
+  end
+
+  def ensure_uniqueness
+
+    #TESTING
+    logger.info "TESTING TESTING::::::"
+    s = Search.for_type(3, "accession", {})   
+    identifiers = s["results"].each.collect {|a| a["identifier"]} 
+    s["results"].each do |a|
+      logger.info " "
+      logger.info a["identifier"].inspect
+    end
+
+    logger.info identifiers.inspect
+
+    render :json => true
   end
 
 
