@@ -9,7 +9,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/plugins/generate_accession_identifiers/next/:repo_key')
     .description("Generate a new identifier based on the year and a running number")
-    .params(["repo_key", [String], "The key of the repo we use for the accession identifiers.",
+    .params(["repo_key", String, "The key of the repo we use for the accession identifiers.",
                    :optional => true])
     .permissions([])
     .returns([200, "{'year', 'YYYY', 'number', N}"]) \
@@ -22,7 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/plugins/generate_accession_identifiers/increment/:repo_key')
     .description("Generate a new identifier based on the year and a running number")
-    .params(["repo_key", [String], "The key of the repo we use for the accession identifiers.",
+    .params(["repo_key", String, "The key of the repo we use for the accession identifiers.",
                    :optional => true])
     .permissions([])
     .returns([200, "{'year', 'YYYY', 'number', N}"]) \
