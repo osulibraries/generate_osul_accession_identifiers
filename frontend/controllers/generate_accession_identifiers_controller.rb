@@ -14,7 +14,7 @@ class GenerateAccessionIdentifiersController < ApplicationController
   end
 
   def expected
-    response = JSONModel::HTTP::post_form('/plugins/generate_accession_identifiers/increment', "repo_key" => params[:repo_key])
+    response = JSONModel::HTTP::post_form('/plugins/generate_accession_identifiers/increment', {"repo_key" => params["repo_key"]})
 
     if response.code == '200'
       render :json => ASUtils.json_parse(response.body)
