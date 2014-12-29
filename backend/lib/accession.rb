@@ -1,4 +1,4 @@
-include Rails::ActiveModel::Callbacks
+include ActiveModel::Callbacks
 
 class Accession < Sequel::Model(:accession)
   include ASModel
