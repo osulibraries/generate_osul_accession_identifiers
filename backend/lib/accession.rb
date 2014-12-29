@@ -1,4 +1,4 @@
-
+require 'active_model'
 class Accession < Sequel::Model(:accession)
   include ASModel
   corresponds_to JSONModel(:accession)
