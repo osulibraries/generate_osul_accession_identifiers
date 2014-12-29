@@ -14,6 +14,10 @@ class GenerateAccessionIdentifiersController < ApplicationController
   end
 
   def expected
+    logger.info "GIVE ME PARAMS!!!!!"
+    logger.info params.inspect
+
+
     response = JSONModel::HTTP::post_form("/plugins/generate_accession_identifiers/increment/#{params[:repo_key]}")
 
     if response.code == '200'
