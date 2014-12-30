@@ -1,8 +1,13 @@
 $(function () {
 
+  if(ACTION == "create"){
+    decrement_sequence()
+  }
+
   var padding = 4;
   var increment;
   var year;
+
 
   var pad_number = function (number, padding) {
     var s = ('' + number);
@@ -122,6 +127,11 @@ $(function () {
     }
     return value
   }
+
+  function decrement_sequence(){
+    //Fill this part out....
+  }
+
 
 })
 

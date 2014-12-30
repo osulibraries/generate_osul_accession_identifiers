@@ -7,7 +7,7 @@ Where REPO is a custom OSUL key derived from the Repo name (defined in the layou
 
 This plugin will generate an "expected" identifier on accession initialization, but will not increment the sequence then.
 
-When the form is saved the sequence is incremented if the identifier matches what the "expected" identifier was.
+When the form is saved the sequence is incremented if the identifier matches what the expected identifier was.
 
 If the identifier matches the expected identifier but was found to be identical to another in the repository this most likely means someone working in the same repository was given the same expected identifier, and saved their accession first. In this case, when the sequence is incremented we will take the value of the new sequence value and apply that to the third part of the identifier.
 

@@ -1,8 +1,9 @@
-<% if controller.controller_name == 'accessions' && controller.action_name == 'new' %>
+<% if controller.controller_name == 'accessions' && (controller.action_name == 'new' || controller.action_name == 'create')  %>
   <% if current_repo %>
   	<%= javascript_tag  do %>	
 			REPO_CODE = "<%= current_repo['repo_code'].gsub(/OSU_/, "") %>" 
       REPO_ID = "<%= session[:repo_id] %>"
+      ACTION = "<%= controller.action_name %>"
 		<% end %>
   <% end %>
   <%= javascript_include_tag "#{@base_url}/aspace/assets/generate_accession_identifiers.js" %>
