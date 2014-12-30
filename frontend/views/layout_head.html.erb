@@ -2,6 +2,7 @@
   <% if current_repo %>
   	<%= javascript_tag  do %>	
 			REPO_CODE = "<%= current_repo['repo_code'].gsub(/OSU_/, "") %>" 
+      REPO_ID = "<%= session[:repo_id] %>"
 		<% end %>
   <% end %>
   <%= javascript_include_tag "#{@base_url}/aspace/assets/generate_accession_identifiers.js" %>

@@ -24,19 +24,17 @@ class GenerateAccessionIdentifiersController < ApplicationController
   end
 
   def ensure_uniqueness
-
-    #TESTING
-    logger.info "TESTING TESTING::::::"
-    s = Search.for_type(3, "accession", {})   
+    s = Search.for_type(params[:repo_id], "accession", {})   
     identifiers = s["results"].each.collect {|a| a["identifier"]} 
-    s["results"].each do |a|
-      logger.info " "
-      logger.info a["identifier"].inspect
-    end
 
     logger.info identifiers.inspect
+    logger.info params[:identifier]
 
-    render :json => true
+    is_not_unique = identifiers.include? params[:identifier]
+
+
+
+    render :json => {"is_unique" => !is_not_unique}.to_json
   end
 
 
