@@ -1,125 +1,79 @@
 $(function () {
 
-  if(ACTION == "create"){
-    decrement_sequence()
-  }
-
   var padding = 4;
-  var increment;
-  var year;
-
-
-  var pad_number = function (number, padding) {
-    var s = ('' + number);
-
-    var padding_needed = (padding - s.length)
-
-    if (padding_needed > 0) {
-      s = (new Array(padding_needed + 1).join("0") + s);
-    }
-
-    return s;
-  };
-
-
-  var generate_accession_id = function () {
-    $.ajax({
-      url: APP_PATH + "plugins/generate_accession_identifier/expected",
-      data: {repo_key : REPO_CODE},
-      type: "POST",
-      success: function(identifier) {
-        increment = pad_number(identifier.number, padding)
-        year = identifier.year
-        $('#accession_id_0_').val(REPO_CODE).enable();
-        $('#accession_id_1_').val(year).enable();
-        $('#accession_id_2_').val(increment).enable();
-
-        $('#accession_id_3_').enable();
-      },
-    })
-  };
-
-
-  var identifier_is_blank = function () {
-    for (var i = 0; i < 4; i++) {
-      if ($("#accession_id_" + i + "_").val() !== "") {
-        return false;
-      }
-    }
-
-    return true;
-  };
-
-
+  var increment = $('#accession_id_2_').val();
+  var year = $('#accession_id_1_').val();
+  var increment_sequence = true;
 
   if (identifier_is_blank()) {
-    generate_accession_id();
+    ajax_generate_accession_id();
   }
 
+  id_unique = ajax_identifier_is_unique(assemble_identifier)
+  console.log("id is unique: " + id_unique)
+  results = ajax_increment_is_equal_to_sequence()
+  console.log("Increment is equal to current sequence: " + results)
+
+
+  if(ACTION == "create"){
+    if(ajax_identifier_is_unique(assemble_identifier) && ajax_increment_is_equal_to_sequence()){
+      console.log("Decrementing the Sequence.");
+      decrement_sequence();
+    }
+    else{
+      increment_sequence = false;
+    }
+  }
 
   
+
 
 //Hijacking the form submission to ensure the accession identifier meets our standards.
   $('button[type="submit"]').on('click', function(e){
     is_expected = check_if_identifier_is_expected();
 
-    if(is_expected){
-      increment_accession_id_sequence(true, $('#accession_form'))
-      // check_uniqueness_before_increment( assemble_identifier($('#accession_id_0_').val(), $('#accession_id_1_').val(), $('#accession_id_2_').val(), $('#accession_id_3_').val())) 
+    if(is_expected && increment_sequence){
+      ajax_increment_accession_id_sequence(true, $('#accession_form'))
     }
 
     $('#accession_form').submit();
   });
+
+
+/* ********* FUNCTIONS ********* */
+
+  function identifier_is_blank() {
+    for (var i = 0; i < 4; i++) {
+      if ($("#accession_id_" + i + "_").val() !== "") {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  function pad_number(number, padding) {
+    var s = ('' + number);
+    var padding_needed = (padding - s.length)
+    if (padding_needed > 0) {
+      s = (new Array(padding_needed + 1).join("0") + s);
+    }
+    return s;
+  };
 
   function check_if_identifier_is_expected() {
     part_0 = $('#accession_id_0_').val();
     part_1 = $('#accession_id_1_').val();
     part_2 = $('#accession_id_2_').val();
     part_3 = $('#accession_id_3_').val();
-
     return identifier_is_expected(part_0, part_1, part_2)
   }
-
   function identifier_is_expected(part_0, part_1, part_2) {
     return (part_0 == REPO_CODE && part_1 == year && part_2 == increment)
   }
 
-  function check_uniqueness_before_increment(identifier, form){
-    $.ajax({
-      url: APP_PATH + "plugins/generate_accession_identifier/ensure_uniqueness",
-      data: { repo_id : REPO_ID,
-              identifier : identifier 
-            },
-      type: "POST",
-      async: false,
-      success: function(response){
-        
-      }
-    })
+  function assemble_identifier(){
+    return $('#accession_id_0_').val() + append_hyphen($('#accession_id_1_').val()) + append_hyphen($('#accession_id_2_').val()) + append_hyphen($('#accession_id_3_').val())
   }
-
-  function increment_accession_id_sequence(is_unique, form) {
-    $.ajax({
-      url: APP_PATH + "plugins/generate_accession_identifier/generate",
-      data: {repo_key : REPO_CODE},
-      type: "POST",
-      async: false,
-      success: function(response){
-        //Check to make sure the real sequence number matches the expected. 
-        padded_number = pad_number(response.number, padding);
-
-        if(padded_number != $('#accession_id_2_').val()){
-          //If the given "expected" number in the sequence was taken, change it to the real one.
-          $('#accession_id_2_').val(padded_number);
-        }
-      }
-    });
-  }
-
-  function assemble_identifier(part_0, part_1, part_2, part_3){
-    return part_0 + append_hyphen(part_1) + append_hyphen(part_2) + append_hyphen(part_3)
-  }
-
   function append_hyphen(part){
     value = ""
     if(part != ""){
@@ -128,10 +82,82 @@ $(function () {
     return value
   }
 
+
+/* ******* AJAX CALLS ************* */
+  function make_the_call(action, json_data, on_success_function) {
+    $.ajax({
+      url: APP_PATH + "plugins/generate_accession_identifier/" + action,
+      data: json_data,
+      type: "POST",
+      async: false,
+      success: function(response){
+        on_success_function(response)
+      }
+    });
+  }
+  function empty_function(response) { return true; }
+
+  function ajax_generate_accession_id() {
+    make_the_call("expected", {repo_key : REPO_CODE}, set_identifier)
+  }
+  function set_identifier(response) {
+    increment = pad_number(response.number, padding)
+    year = response.year
+    $('#accession_id_0_').val(REPO_CODE).enable();
+    $('#accession_id_1_').val(year).enable();
+    $('#accession_id_2_').val(increment).enable();
+    $('#accession_id_3_').enable();
+  }
+
+  function ajax_increment_accession_id_sequence(is_unique, form) {
+    make_the_call("generate", {repo_key : REPO_CODE}, adjust_sequence_number)   
+  }
+  function adjust_sequence_number(response){
+    padded_number = pad_number(response.number, padding);
+
+    if(padded_number != $('#accession_id_2_').val()){
+      $('#accession_id_2_').val(padded_number);
+    }
+  }
+
+  function ajax_identifier_is_unique(identifier){
+    var is_unique;
+    $.ajax({
+      url: APP_PATH + "plugins/generate_accession_identifier/ensure_uniqueness",
+      data: { repo_id : REPO_ID, identifier : identifier },
+      type: "POST",
+      async: false,
+      success: function(response){
+        is_unique = response.is_unique;
+      }
+    });
+    return is_unique;
+  }
+  
+  
+
+  function ajax_increment_is_equal_to_sequence(){
+    var number;
+    $.ajax({
+      url: APP_PATH + "plugins/generate_accession_identifier/current",
+      data: {repo_key : REPO_CODE},
+      type: "POST",
+      async: false,
+      success: function(response){
+        number = response.number;
+      }
+    });
+
+    return number == increment
+  }
+    
+
   function decrement_sequence(){
-    //Fill this part out....
+    make_the_call(make_the_call("decrement", {repo_key : REPO_CODE}, empty_function))
   }
 
 
-})
+});
+
+
 
