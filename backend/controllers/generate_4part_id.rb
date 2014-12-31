@@ -68,22 +68,25 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(:year => year, :number => number)
   end
 
-  Endpoint.post('/plugins/generate_accession_identifiers/manual_update/:repo_key')
-    .description("Generate a new identifier based on the year and a running number")
-    .params(["repo_key", String, "The key of the repo we use for the accession identifiers.",
-                   :optional => true],
-            ["value", String, "The key of the repo we use for the accession identifiers.",
-                   :optional => true])
-    .permissions([])
-    .returns([200, "{'year', 'YYYY', 'number', N}"]) \
-  do
-    # year = Time.now.strftime('%Y')
-    # sequence_name = "#{params[:repo_key]}_GENERATE_ACCESSION_IDENTIFIER_#{year}"
 
-    # number = OsulSequence.osul_set_manually(sequence_name, params[:value].to_i)
 
-    json_response(:repo_key => params[:repo_key], :value => params[:value])
-  end
+# Not working, but not worth the time right now.
+  # Endpoint.post('/plugins/generate_accession_identifiers/manual_update/:repo_key')
+  #   .description("Generate a new identifier based on the year and a running number")
+  #   .params(["repo_key", String, "The key of the repo we use for the accession identifiers.",
+  #                  :optional => true],
+  #           ["value", String, "The key of the repo we use for the accession identifiers.",
+  #                  :optional => true])
+  #   .permissions([])
+  #   .returns([200, "{'year', 'YYYY', 'number', N}"]) \
+  # do
+  #   # year = Time.now.strftime('%Y')
+  #   # sequence_name = "#{params[:repo_key]}_GENERATE_ACCESSION_IDENTIFIER_#{year}"
+
+  #   # number = OsulSequence.osul_set_manually(sequence_name, params[:value].to_i)
+
+  #   json_response(:repo_key => params[:repo_key], :value => params[:value])
+  # end
 
 
 

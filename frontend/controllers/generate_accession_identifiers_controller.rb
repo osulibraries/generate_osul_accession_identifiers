@@ -43,16 +43,16 @@ class GenerateAccessionIdentifiersController < ApplicationController
     return json
   end
 
+# Not working, but not worth the time right now.
+  # def manually_update_sequence
+  #   response = JSONModel::HTTP::post_form("/plugins/generate_accession_identifiers/manual_update", { "repo_key" => params[:repo_key], "value" => params[:value] })
 
-  def manually_update_sequence
-    response = JSONModel::HTTP::post_form("/plugins/generate_accession_identifiers/manual_update?repo_key=#{params[:repo_key]}&value=#{params[:value]}")
+  #   json = ((response.code == '200') ? ASUtils.json_parse(response.body) : response.to_json) 
 
-    json = ((response.code == '200') ? ASUtils.json_parse(response.body) : response.to_json) 
-
-    return json
-    json_response = post_json_form()
-    render :json => json_response
-  end
+  #   return json
+  #   json_response = post_json_form()
+  #   render :json => json_response
+  # end
 
 
 end

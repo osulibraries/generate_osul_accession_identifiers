@@ -15,7 +15,4 @@ ArchivesSpace::Application.routes.draw do
   match('aspace/plugins/generate_accession_identifier/ensure_uniqueness' => 'generate_accession_identifiers#ensure_uniqueness',
         :via => [:post])
 
-  match('aspace/plugins/generate_accession_identifier/manually_update_sequence' => 'generate_accession_identifiers#manually_update_sequence',
-        :via => [:post])
-
 end
