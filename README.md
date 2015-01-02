@@ -7,17 +7,17 @@ Where REPO is a custom OSUL key derived from the Repository name (defined in the
 
 The goal of this plugin is to maintain the integrity of the sequence while allowing the user to override and customize identifiers.
 
-BEHAVIOR:
+### BEHAVIOR
 
-When a new Accession is created it will generate an "expected" identifier but will not increment the sequence at that point.
+* When a new Accession is created it will generate an "expected" identifier but will not increment the sequence.
 
-When the form is saved the sequence is incremented if the identifier still matches the given expected identifier.
+* When the form is saved the sequence is incremented if the identifier still matches the given expected identifier.
 
-If the identifier matches the expected identifier but was found to be identical to another identifier in the repository*, when the sequence is incremented it will update the third part of the identifier with the value of the updated sequence before the accession saves. 
+* If the identifier matches the expected identifier but was found to be identical to another identifier in the repository*, when the sequence is incremented it will update the third part of the identifier with the value of the updated sequence before the accession saves. 
 
-If any of the first three parts of the identifier are modified by the user, and no longer match the given expected identifier, the sequence will NOT be incremented.
+* If any of the first three parts of the identifier are modified by the user, and no longer match the given expected identifier, the sequence will NOT be incremented.
 
-If the first three parts of the expected identifier are accepted but something is added to the fourth part, the sequence will still be incremented.
+* If the first three parts of the expected identifier are accepted but something is added to the fourth part, the sequence will still be incremented.
 
 
 
