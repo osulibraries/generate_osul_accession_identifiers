@@ -14,7 +14,7 @@ $ git clone git@github.com:osulibraries/generate_osul_accession_identifiers.git
 * activate the plugin in your config/config.rb file by
 including an entry such as:
 
-`AppConfig[:plugins] = ['generate_osul_accession_identifiers']`
+```AppConfig[:plugins] = ['generate_osul_accession_identifiers']```
 
 
 #### BEHAVIOR
