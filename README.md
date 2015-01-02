@@ -17,7 +17,7 @@ including an entry such as:
 ```AppConfig[:plugins] = ['generate_osul_accession_identifiers']```
 
 
-#### BEHAVIOR
+#### Behavior
 The goal of this plugin is to maintain the integrity of the sequence by sensing when it is appropriate to increment.
 
 * Each repository has it's own sequence for each year. When a new year begins, the sequence starts over at '0001'.
