@@ -32,4 +32,4 @@ including an entry such as:
 
 
 
-*If this happens, it most likely means someone else working in the same repository as you started a new accession at the same time, was given the same expected identifier, and saved their accession first.
+*<sub>If this happens, it most likely means someone else working in the same repository as you started a new accession at the same time, was given the same expected identifier, and saved their accession first.</sub>
