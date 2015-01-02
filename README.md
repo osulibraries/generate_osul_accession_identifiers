@@ -3,17 +3,21 @@ Accession" form for each repository. The form will default to an identifier such
 
   REPO YYYY NNNN
 
-Where REPO is a custom OSUL key derived from the Repo name (defined in the layout_head.html.erb), YYYY is the current year, and NNN is a sequence number.
+Where REPO is a custom OSUL key derived from the Repository name (defined in the layout_head.html.erb), YYYY is the current year, and NNNN is the padded sequence number.
 
-This plugin will generate an "expected" identifier on accession initialization, but will not increment the sequence then.
+The goal of this plugin is to maintain the integrity of the sequence while allowing the user to override and customize identifiers.
 
-When the form is saved the sequence is incremented if the identifier matches what the expected identifier was.
+BEHAVIOR:
 
-If the identifier matches the expected identifier but was found to be identical to another in the repository this most likely means someone working in the same repository was given the same expected identifier, and saved their accession first. In this case, when the sequence is incremented we will take the value of the new sequence value and apply that to the third part of the identifier.
+When a new Accession is created it will generate an "expected" identifier but will not increment the sequence at that point.
 
+When the form is saved the sequence is incremented if the identifier still matches the given expected identifier.
 
-This functionality maintains the integrity of the sequence while allowing the user to customize identifiers.
+If the identifier matches the expected identifier but was found to be identical to another identifier in the repository*, when the sequence is incremented it will update the third part of the identifier with the value of the updated sequence before the accession saves. 
 
+If any of the first three parts of the identifier are modified by the user, and no longer match the given expected identifier, the sequence will NOT be incremented.
+
+If the first three parts of the expected identifier are accepted but something is added to the fourth part, the sequence will still be incremented.
 
 
 
@@ -21,3 +25,11 @@ To install, just activate the plugin in your config/config.rb file by
 including an entry such as:
 
      AppConfig[:plugins] = ['generate_osul_accession_identifiers']
+
+
+
+
+
+
+
+*If this happens, it most likely means someone else working in the same repository as you started a new accession at the same time, was given the same expected identifier, and saved their accession first.

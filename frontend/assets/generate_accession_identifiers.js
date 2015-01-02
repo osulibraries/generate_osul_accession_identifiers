@@ -86,7 +86,6 @@ $(function () {
       }
     });
   }
-  function empty_function(response) { return true; }
 
   function ajax_generate_accession_id() {
     make_the_call("expected", {repo_key : REPO_CODE}, set_identifier)
