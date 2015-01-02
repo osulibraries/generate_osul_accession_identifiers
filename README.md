@@ -1,11 +1,15 @@
 This plugin adds automatic identifier generation to the "Create
-Accession". The form will default to an identifier such as:
+Accession" form. The form will default to an identifier such as:
 
   REPO YYYY NNNN
 
 Where REPO is a custom OSUL key derived from the Repository name (defined in the layout_head.html.erb), YYYY is the current year, and NNNN is the padded sequence number.
 
-To install, just activate the plugin in your config/config.rb file by
+#### Installation
+* Include the code in your archivesspace plugins:
+     $ cd [archivesspace]/plugins
+     $ git clone git@github.com:osulibraries/generate_osul_accession_identifiers.git
+* activate the plugin in your config/config.rb file by
 including an entry such as:
 
      AppConfig[:plugins] = ['generate_osul_accession_identifiers']
