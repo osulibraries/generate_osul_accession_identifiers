@@ -9,23 +9,14 @@ $(function () {
     ajax_generate_accession_id();
   }
 
-  id_unique = ajax_identifier_is_unique(assemble_identifier)
-  console.log("id is unique: " + id_unique)
-  results = ajax_increment_is_equal_to_sequence()
-  console.log("Increment is equal to current sequence: " + results)
-
-
   if(ACTION == "create"){
     if(ajax_identifier_is_unique(assemble_identifier) && ajax_increment_is_equal_to_sequence()){
-      console.log("Decrementing the Sequence.");
       decrement_sequence();
     }
     else{
       increment_sequence = false;
     }
   }
-
-  
 
 
 //Hijacking the form submission to ensure the accession identifier meets our standards.
@@ -91,7 +82,7 @@ $(function () {
       type: "POST",
       async: false,
       success: function(response){
-        on_success_function(response)
+        if ( on_success_function !== undefined ) { on_success_function(response); }
       }
     });
   }
@@ -153,7 +144,7 @@ $(function () {
     
 
   function decrement_sequence(){
-    make_the_call(make_the_call("decrement", {repo_key : REPO_CODE}, empty_function))
+    make_the_call("decrement", {repo_key : REPO_CODE})
   }
 
 
