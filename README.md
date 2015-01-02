@@ -7,12 +7,14 @@ Where REPO is a custom OSUL key derived from the Repository name (defined in the
 
 #### Installation
 * Include the code in your archivesspace plugins:
-     $ cd [archivesspace]/plugins
-     $ git clone git@github.com:osulibraries/generate_osul_accession_identifiers.git
+```
+$ cd [archivesspace]/plugins
+$ git clone git@github.com:osulibraries/generate_osul_accession_identifiers.git
+```
 * activate the plugin in your config/config.rb file by
 including an entry such as:
 
-     AppConfig[:plugins] = ['generate_osul_accession_identifiers']
+`AppConfig[:plugins] = ['generate_osul_accession_identifiers']`
 
 
 #### BEHAVIOR
