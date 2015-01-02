@@ -20,13 +20,13 @@ The goal of this plugin is to maintain the integrity of the sequence by sensing 
 
 * When the form is saved the sequence is incremented if the identifier still matches the given expected identifier.
 
-* If the identifier matches the expected identifier but was found to be identical to another identifier in the repository*, when the sequence is incremented it will update the third part of the identifier with the value of the updated sequence before the accession saves. 
+* If the identifier matches the expected identifier but was found to be identical to another identifier in the repository**, when the sequence is incremented it will update the third part of the identifier with the value of the updated sequence before the accession saves. 
 
 * If any of the first three parts of the identifier are modified by the user, and no longer match the given expected identifier, the sequence will NOT be incremented.
 
 * If the first three parts of the expected identifier are accepted but something is added to the fourth part, the sequence will still be incremented.
 
-* If the form is missing required information and fails validation after it is submitted it will be kicked back to the create view. When this happens the plugin will check if the sequence was incremented when the Accession was submitted the first time and decrement the sequence if it was. It will follow the same logic the next time the Accession is submitted.
+* If the form is missing required information and fails validation after it is submitted it will be kicked back to the create view. When this happens the plugin will decrement the sequence if it was incremented when the Accession was first submitted. 
 
 
 
@@ -39,4 +39,4 @@ The goal of this plugin is to maintain the integrity of the sequence by sensing 
 
 
 
-<sub>*If this happens, it most likely means someone else working in the same repository as you started a new accession at the same time, was given the same expected identifier, and saved their accession first.</sub>
+<sub>**If this happens, it most likely means someone else working in the same repository as you started a new accession at the same time, was given the same expected identifier, and saved their accession first.</sub>
