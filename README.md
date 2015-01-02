@@ -1,15 +1,22 @@
 This plugin adds automatic identifier generation to the "Create
-Accession" form for each repository. The form will default to an identifier such as:
+Accession". The form will default to an identifier such as:
 
   REPO YYYY NNNN
 
 Where REPO is a custom OSUL key derived from the Repository name (defined in the layout_head.html.erb), YYYY is the current year, and NNNN is the padded sequence number.
 
-The goal of this plugin is to maintain the integrity of the sequence while allowing the user to override and customize identifiers.
+To install, just activate the plugin in your config/config.rb file by
+including an entry such as:
 
-### BEHAVIOR
+     AppConfig[:plugins] = ['generate_osul_accession_identifiers']
 
-* When a new Accession is created it will generate an "expected" identifier but will not increment the sequence.
+
+#### BEHAVIOR
+The goal of this plugin is to maintain the integrity of the sequence by sensing when it is appropriate to increment.
+
+* Each repository has it's own sequence for each year. When a new year begins, the sequence starts over at '0001'.
+
+* When a new Accession is created it will generate an "expected" identifier without incrementing the sequence.
 
 * When the form is saved the sequence is incremented if the identifier still matches the given expected identifier.
 
@@ -19,12 +26,10 @@ The goal of this plugin is to maintain the integrity of the sequence while allow
 
 * If the first three parts of the expected identifier are accepted but something is added to the fourth part, the sequence will still be incremented.
 
+* If the form is missing required information and fails validation after it is submitted it will be kicked back to the create view. When this happens the plugin will check if the sequence was incremented when the Accession was submitted the first time and decrement the sequence if it was. It will follow the same logic the next time the Accession is submitted.
 
 
-To install, just activate the plugin in your config/config.rb file by
-including an entry such as:
 
-     AppConfig[:plugins] = ['generate_osul_accession_identifiers']
 
 
 <br />
