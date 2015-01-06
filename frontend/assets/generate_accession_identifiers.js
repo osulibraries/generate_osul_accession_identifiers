@@ -96,7 +96,7 @@ $(function () {
     $('#accession_id_0_').val(REPO_CODE).enable();
     $('#accession_id_1_').val(year).enable();
     $('#accession_id_2_').val(increment).enable();
-    $('#accession_id_3_').enable();
+    //$('#accession_id_3_').enable(); /* DISABLED FOR OSUL */
   }
 
   function ajax_increment_accession_id_sequence(is_unique, form) {
