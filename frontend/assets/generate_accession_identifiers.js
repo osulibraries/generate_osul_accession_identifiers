@@ -6,7 +6,6 @@ $(function () {
 
 
   if(ACTION == "create"){
-    console.log("Form failed, back pedaling.")
     //The creation failed for some reason.
     if(ajax_identifier_is_unique(assemble_identifier) && ajax_increment_is_equal_to_sequence()){
       /*If the id is still unique (the sequence wasn't taken by someone else) and the  
@@ -148,7 +147,7 @@ $(function () {
         number = pad_number(response.number, padding);
       }
     });
- 
+    
     return number == increment
   }
     
