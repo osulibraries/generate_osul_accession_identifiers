@@ -3,28 +3,31 @@ $(function () {
   var padding = 4;
   var increment = $('#accession_id_2_').val();
   var year = $('#accession_id_1_').val();
-  var increment_sequence = true;
 
-  if (identifier_is_blank()) {
-    ajax_generate_accession_id();
-  }
 
   if(ACTION == "create"){
+    console.log("Form failed, back pedaling.")
+    //The creation failed for some reason.
     if(ajax_identifier_is_unique(assemble_identifier) && ajax_increment_is_equal_to_sequence()){
+      /*If the id is still unique (the sequence wasn't taken by someone else) and the  
+       *third part matches the current value of the sequence, we can safely assume the 
+       *failed submit incremented the sequence and we should decrement it. */
       decrement_sequence();
-    }
-    else{
-      increment_sequence = false;
     }
   }
 
 
-//Hijacking the form submission to ensure the accession identifier meets our standards.
+
+  //populate year and increment variables and fields (if empty) initially.
+  ajax_generate_expected_identifier();
+
+  //Hijacking the form submission to ensure the accession identifier meets our standards.
   $('button[type="submit"]').on('click', function(e){
+    //Check is the identifier matches the next expected identifier.
     is_expected = check_if_identifier_is_expected();
 
-    if(is_expected && increment_sequence){
-      ajax_increment_accession_id_sequence(true, $('#accession_form'))
+    if(is_expected){
+      ajax_increment_accession_id_sequence();
     }
 
     $('#accession_form').submit();
@@ -40,7 +43,7 @@ $(function () {
       }
     }
     return true;
-  };
+  }
 
   function pad_number(number, padding) {
     var s = ('' + number);
@@ -49,7 +52,7 @@ $(function () {
       s = (new Array(padding_needed + 1).join("0") + s);
     }
     return s;
-  };
+  }
 
   function check_if_identifier_is_expected() {
     part_0 = $('#accession_id_0_').val();
@@ -62,17 +65,7 @@ $(function () {
     return (part_0 == REPO_CODE && part_1 == year && part_2 == increment)
   }
 
-  function assemble_identifier(){
-    return $('#accession_id_0_').val() + append_hyphen($('#accession_id_1_').val()) + append_hyphen($('#accession_id_2_').val()) + append_hyphen($('#accession_id_3_').val())
-  }
-  function append_hyphen(part){
-    value = ""
-    if(part != ""){
-      value = "-" + part
-    }
-    return value
-  }
-
+  
 
 /* ******* AJAX CALLS ************* */
   function make_the_call(action, json_data, on_success_function) {
@@ -87,19 +80,25 @@ $(function () {
     });
   }
 
-  function ajax_generate_accession_id() {
-    make_the_call("expected", {repo_key : REPO_CODE}, set_identifier)
+
+  function ajax_generate_expected_identifier(){
+    make_the_call("expected", {repo_key : REPO_CODE}, populate_expected_identifier)
   }
-  function set_identifier(response) {
-    increment = pad_number(response.number, padding)
+  function populate_expected_identifier(response){
     year = response.year
+    increment = pad_number(response.number, padding)
+    if (identifier_is_blank()) {
+      set_identifier();
+    }
+  }
+  function set_identifier() {
     $('#accession_id_0_').val(REPO_CODE).enable();
     $('#accession_id_1_').val(year).enable();
     $('#accession_id_2_').val(increment).enable();
     //$('#accession_id_3_').enable(); /* DISABLED FOR OSUL */
   }
 
-  function ajax_increment_accession_id_sequence(is_unique, form) {
+  function ajax_increment_accession_id_sequence() {
     make_the_call("generate", {repo_key : REPO_CODE}, adjust_sequence_number)   
   }
   function adjust_sequence_number(response){
@@ -110,6 +109,18 @@ $(function () {
     }
   }
 
+
+
+  function assemble_identifier(){
+    return $('#accession_id_0_').val() + append_hyphen($('#accession_id_1_').val()) + append_hyphen($('#accession_id_2_').val()) + append_hyphen($('#accession_id_3_').val())
+  }
+  function append_hyphen(part){
+    value = ""
+    if(part != ""){
+      value = "-" + part
+    }
+    return value
+  }
   function ajax_identifier_is_unique(identifier){
     var is_unique;
     $.ajax({
@@ -134,10 +145,10 @@ $(function () {
       type: "POST",
       async: false,
       success: function(response){
-        number = response.number;
+        number = pad_number(response.number, padding);
       }
     });
-
+ 
     return number == increment
   }
     
