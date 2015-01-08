@@ -4,7 +4,9 @@ $(function () {
   var increment = $('#accession_id_2_').val();
   var year = $('#accession_id_1_').val();
 
+  //ORDER IS IMPORTANT HERE
 
+  //1.
   if(ACTION == "create"){
     //The creation failed for some reason.
     if(ajax_identifier_is_unique(assemble_identifier) && ajax_increment_is_equal_to_sequence()){
@@ -15,11 +17,11 @@ $(function () {
     }
   }
 
-
-
+  //2.
   //populate year and increment variables and fields (if empty) initially.
   ajax_generate_expected_identifier();
 
+  //3. OR whenever the person clicks submit....
   //Hijacking the form submission to ensure the accession identifier meets our standards.
   $('button[type="submit"]').on('click', function(e){
     //Check is the identifier matches the next expected identifier.
@@ -147,7 +149,7 @@ $(function () {
         number = pad_number(response.number, padding);
       }
     });
-    
+
     return number == increment
   }
     
